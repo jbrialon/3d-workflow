@@ -15,8 +15,6 @@ export default class Camera {
 
     // Setup
     this.isAnimated = false;
-    this.scrollProgress = 0;
-    this.targetPosition = new THREE.Vector3();
 
     this.setInstance();
     this.initEvents();
@@ -24,8 +22,7 @@ export default class Camera {
   }
 
   initEvents() {
-    this.inputEvents.on("mousemove", this.onMouseMove.bind(this));
-    // this.inputEvents.on("wheel", this.onMouseWheel.bind(this));
+    //this.inputEvents.on("mousemove", this.onMouseMove.bind(this));
   }
 
   setInstance() {
@@ -37,20 +34,18 @@ export default class Camera {
       100
     );
 
-    this.cameraParent.position.set(
-      34.06100082397461,
-      1.6516000032424927,
-      0.059365998953580856
-    );
-    this.instance.lookAt(0, 0, 0);
     this.scene.add(this.cameraParent);
     this.cameraParent.add(this.instance);
+  }
+
+  setPositionAndRotation(position, rotation) {
+    this.cameraParent.position.set(position.x, position.y, position.z);
+    this.instance.rotation.set(rotation.x, rotation.y, rotation.z);
   }
 
   setTarget(targetPosition) {
     if (targetPosition) {
       this.targetPosition = targetPosition;
-      console.log(this.targetPosition);
       this.instance.lookAt(
         this.targetPosition.x,
         this.targetPosition.y,
@@ -62,43 +57,6 @@ export default class Camera {
   setPaths(cameraPathPoint) {
     this.cameraCurve = new THREE.CatmullRomCurve3(cameraPathPoint);
     this.cameraPoints = this.cameraCurve.getPoints(50);
-  }
-
-  onMouseWheel() {
-    if (this.scrollProgress >= 0) {
-      let delta = 0.05;
-      if (this.inputEvents.mouse.z < 0) {
-        delta = -0.05;
-      }
-
-      const targetScrollProgress = this.scrollProgress + delta;
-      const clampedScrollProgress = Math.max(
-        0,
-        Math.min(targetScrollProgress, 1)
-      );
-
-      gsap.to(this, {
-        duration: 1.5,
-        scrollProgress: clampedScrollProgress,
-        ease: "power2.EaseInOut",
-        onUpdate: () => {
-          const newPosition = this.cameraCurve.getPointAt(this.scrollProgress);
-          // const newPosition2 = this.targetCurve.getPointAt(this.scrollProgress);
-          // this.fakeTarget.position.copy(newPosition2);
-          this.cameraParent.position.copy(newPosition);
-          this.instance.lookAt(
-            this.targetPosition.x,
-            this.targetPosition.y,
-            this.targetPosition.z
-          );
-        },
-        onComplete: () => {
-          // this.manager.goToTutorialStep(3);
-        },
-      });
-
-      console.log(clampedScrollProgress);
-    }
   }
 
   onMouseMove() {
@@ -115,11 +73,7 @@ export default class Camera {
     );
 
     // Create a movement vector based on the mouse position
-    const movementVector = new THREE.Vector3(
-      position.x / 8,
-      position.y / -8,
-      0
-    );
+    const movementVector = new THREE.Vector3(position.x / 4, 0, 0);
 
     // Apply the camera's current rotation to the movement vector
     movementVector.applyQuaternion(this.instance.quaternion);
@@ -149,7 +103,7 @@ export default class Camera {
   }
 
   update() {
-    this.instance.lookAt(0, 0, 0);
+    //this.instance.lookAt(0, 0, 0);
     // this.controls.update();
   }
 }

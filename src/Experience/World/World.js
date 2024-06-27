@@ -1,4 +1,5 @@
 import Experience from "../Experience";
+import Columns from "./Columns";
 import Environment from "./Environment";
 import Loader from "./Loader";
 import Scene from "./Scene";
@@ -14,14 +15,14 @@ export default class World {
     // Wait for resources to be loaded
     this.resources.on("ready", () => {
       // Setup
-      this.environment = new Environment();
-      this.theScene = new Scene();
+      //this.environment = new Environment();
+      this.columns = new Columns();
       // Show Experience
       this.loader.hideLoader();
     });
   }
 
   update() {
-    if (this.theScene) this.theScene.update();
+    if (this.columns) this.columns.update();
   }
 }

@@ -15,8 +15,6 @@ export default class Scene {
 
     // Options
     this.options = {};
-    this.targetPosition = null;
-    this.cameraPathPoint = [];
     this.actions = {};
     this.scrollProgress = 0;
 
@@ -33,9 +31,9 @@ export default class Scene {
 
   onMouseWheel() {
     if (this.scrollProgress >= 0) {
-      let delta = 0.05;
+      let delta = 0.1;
       if (this.inputEvents.mouse.z < 0) {
-        delta = -0.05;
+        delta = -0.1;
       }
       console.log(this.scrollProgress);
       const targetScrollProgress = this.scrollProgress + delta;
@@ -51,10 +49,14 @@ export default class Scene {
         onUpdate: () => {
           // TODO: animate here
           if (this.activeAction) {
-            console.log(this.scrollProgress);
-            const clip = this.activeAction.getClip();
-            const duration = clip.duration;
-            this.animation.mixer.setTime(this.scrollProgress * duration);
+            this.activeAction.paused = false;
+            const duration = this.activeAction.getClip().duration - 0.1;
+            const progress = this.scrollProgress * duration;
+            const time = Math.max(0, Math.min(progress, duration));
+            this.animation.mixer.setTime(time);
+            this.camera.cameraParent.position.copy(this.cameraModel.position);
+            this.camera.instance.rotation.copy(this.cameraModel.rotation);
+            this.activeAction.paused = true;
           }
         },
       });
@@ -65,26 +67,17 @@ export default class Scene {
     this.model = this.resource.scene;
     this.model.traverse((child) => {
       if (child instanceof THREE.Mesh) {
-        // console.log(child.name);
-        // child.castShadow = true;
-        // child.receiveShadow = true;
-        // if (child.name.includes("path_")) {
-        //   this.cameraPathPoint.push(child.position);
-        //   child.visible = false;
-        // } else if (child.name.includes("target")) {
-        //   console.log(child.position);
-        //   this.targetPosition = child.position;
-        //   child.visible = false;
-        // } else if (child.name.includes("pillar_")) {
-        //   // child.castShadow = true;
-        //   console.log(child.name);
-        // }
+        if (child.name.includes("trigger")) {
+          child.visible = false;
+        }
       } else if (child instanceof THREE.Camera) {
-        // console.log(child);
+        this.cameraModel = child;
+        this.camera.setPositionAndRotation(
+          this.cameraModel.position,
+          this.cameraModel.rotation
+        );
       }
     });
-    // this.camera.setTarget(this.targetPosition);
-    // this.camera.setPaths(this.cameraPathPoint);
     this.scene.add(this.model);
   }
 
@@ -94,11 +87,12 @@ export default class Scene {
     this.resource.animations.forEach((clip) => {
       const action = this.animation.mixer.clipAction(clip);
       this.actions[clip.name] = action;
-      console.log(clip.name);
+      this.actions[clip.name].loop = THREE.LoopOnce;
     });
 
-    this.activeAction = this.actions["CameraAnimation"];
+    this.activeAction = this.actions["CameraAction"];
     this.activeAction.play();
+    this.activeAction.paused = true;
   }
 
   setDebug() {
@@ -108,6 +102,6 @@ export default class Scene {
   }
 
   update() {
-    if (this.animation) this.animation.mixer.update(this.time.delta);
+    if (this.animation) this.animation.mixer.update(this.time.delta * 0.0001);
   }
 }

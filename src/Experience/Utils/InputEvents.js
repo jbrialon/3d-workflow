@@ -22,13 +22,13 @@ export default class InputEvents extends EventEmitter {
       this.trigger("mousemove");
     });
 
-    window.addEventListener("mousedown", this.handleMouseDown.bind(this));
-    window.addEventListener("mouseup", this.handleMouseUp.bind(this));
+    //window.addEventListener("mousedown", this.handleMouseDown.bind(this));
+    //window.addEventListener("mouseup", this.handleMouseUp.bind(this));
 
     // Add touch event listeners
-    window.addEventListener("touchstart", this.handleTouchStart.bind(this));
-    window.addEventListener("touchmove", this.handleTouch.bind(this));
-    window.addEventListener("touchend", this.handleTouchEnd.bind(this));
+    //window.addEventListener("touchstart", this.handleTouchStart.bind(this));
+    //window.addEventListener("touchmove", this.handleTouch.bind(this));
+    //window.addEventListener("touchend", this.handleTouchEnd.bind(this));
 
     // Mouse Wheel / Trackpad events
     window.addEventListener("wheel", this.handleWheel.bind(this));

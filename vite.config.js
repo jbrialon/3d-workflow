@@ -1,6 +1,8 @@
+import { defineConfig } from "vite";
+import vue from "@vitejs/plugin-vue";
 import glsl from "vite-plugin-glsl";
 
-export default {
+export default defineConfig({
   root: "src/",
   publicDir: "../static/",
   base: "./",
@@ -13,5 +15,5 @@ export default {
     emptyOutDir: true,
     sourcemap: true,
   },
-  plugins: [glsl()],
-};
+  plugins: [vue(), glsl()],
+});

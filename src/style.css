@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+
 * {
   margin: 0;
   padding: 0;
@@ -6,58 +8,24 @@
 html,
 body {
   overflow: hidden;
+  font-family: "Work Sans", sans-serif;
+  font-optical-sizing: auto;
 }
 
 body {
   width: 100vw;
-  height: 100vh;
   color: #000;
-  font-family: Monospace;
+  font-weight: 400;
+  font-style: normal;
   font-size: 13px;
   line-height: 24px;
-  background: linear-gradient(
-    0deg,
-    rgba(255, 255, 255, 1) 0%,
-    rgba(114, 124, 165, 1) 75%
-  );
-}
-
-a {
-  color: #2983ff;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-button {
-  cursor: pointer;
-  text-transform: uppercase;
+  background: #dedfe1;
 }
 
 .webgl {
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 10;
   outline: none;
-}
-
-#info {
-  position: absolute;
-  bottom: 0px;
-  width: 100%;
-  padding: 10px;
-  box-sizing: border-box;
-  text-align: center;
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  pointer-events: none;
-  z-index: 1;
-}
-
-a {
-  pointer-events: auto;
 }

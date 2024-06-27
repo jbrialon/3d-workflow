@@ -12,7 +12,7 @@ export default class Loader {
 
     // Options
     this.options = {
-      uColor: 0x9fcce9,
+      uColor: 0xdedfe1,
       uAlpha: 1,
     };
 

@@ -1,5 +1,16 @@
 import * as THREE from "three";
 
+import {
+  computeBoundsTree,
+  disposeBoundsTree,
+  acceleratedRaycast,
+} from "three-mesh-bvh";
+
+// Add the extension functions
+THREE.BufferGeometry.prototype.computeBoundsTree = computeBoundsTree;
+THREE.BufferGeometry.prototype.disposeBoundsTree = disposeBoundsTree;
+THREE.Mesh.prototype.raycast = acceleratedRaycast;
+
 import Sizes from "./Utils/Sizes.js";
 import InputEvents from "./Utils/InputEvents.js";
 
@@ -9,6 +20,7 @@ import Debug from "./Utils/Debug.js";
 import Stats from "./Utils/Stats.js";
 
 import Camera from "./Camera.js";
+import Manager from "./Manager.js";
 import Renderer from "./Renderer.js";
 
 import World from "./World/World.js";
@@ -38,6 +50,7 @@ export default class Experience {
     this.inputEvents = new InputEvents();
     this.time = new Time();
     this.scene = new THREE.Scene();
+    this.manager = new Manager();
     this.resources = new Resources(sources);
     this.camera = new Camera();
     this.renderer = new Renderer();
