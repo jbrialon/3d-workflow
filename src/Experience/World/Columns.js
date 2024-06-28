@@ -37,29 +37,35 @@ export default class Columns {
     });
 
     this.cameraBox = new THREE.Mesh(
-      new THREE.BoxGeometry(0.15, 0.15, 0.15),
+      new THREE.BoxGeometry(0.015, 0.15, 0.15),
       new THREE.MeshNormalMaterial({
         side: THREE.DoubleSide,
         transparent: true,
         opacity: 0.5,
       })
     );
-    this.cameraBox.visible = true;
+    this.cameraBox.visible = false;
     this.scene.add(this.cameraBox);
 
+    this.initEvents();
     this.setModel();
     this.setAnimations();
+
     // Debug
     this.setDebug();
+  }
 
+  initEvents() {
+    // wheel event
     this.inputEvents.on("wheel", this.onMouseWheel.bind(this));
+    this.manager.on("columns-toggleDebug", this.toggleDebug.bind(this));
   }
 
   onMouseWheel() {
     if (this.scrollProgress >= 0) {
-      let delta = 0.05;
+      let delta = 0.1;
       if (this.inputEvents.mouse.z < 0) {
-        delta = -0.05;
+        delta = -0.1;
       }
       const targetScrollProgress = this.scrollProgress + delta;
       const clampedScrollProgress = Math.max(
@@ -128,6 +134,12 @@ export default class Columns {
     this.activeAction.paused = true; // Pause the action initially
   }
 
+  toggleDebug() {
+    this.colliders.forEach((collider) => {
+      collider.visible = !collider.visible;
+    });
+  }
+
   setDebug() {
     if (this.debug.active) {
       this.debugFolder = this.debug.ui.addFolder("Scene");
@@ -153,19 +165,21 @@ export default class Columns {
         isCurrentlyInside = true;
         if (!this.isInsideCollider) {
           this.isInsideCollider = true;
-          console.log("Entered collider", collider.name);
+          if (this.currentCollider?.name === collider.name) {
+            // Trigger exit event here
+            console.log("Exited collider", collider.name);
+          } else {
+            // Trigger enter event here
+            console.log("Entered collider", collider.name);
+            this.manager.trigger("content-update", collider.name);
+          }
           this.currentCollider = collider;
-
-          // Trigger enter event here
-          this.manager.trigger("content-update", collider.name);
         }
       }
     });
 
     if (!isCurrentlyInside && this.isInsideCollider) {
       this.isInsideCollider = false;
-      console.log("Exited collider", this.currentCollider.name);
-      // Trigger exit event here
     }
   }
 }
