@@ -108,31 +108,32 @@ export default class InputEvents extends EventEmitter {
   }
 
   handleTouch(event) {
-    // if only one touch, we act as simple mouse move
+    // If only one touch, act as simple mouse move and scroll
     if (event.touches.length === 1) {
+      // Save current touch positions
+      const currentTouchY = event.touches[0].clientY;
+
+      // Calculate delta based on previous touch position
+      const delta = currentTouchY - (this.touch?.y || currentTouchY);
+      this.touch = { y: currentTouchY }; // Save current position for the next event
+
+      // Update mouse position
       this.mouse.x = event.touches[0].clientX;
       this.mouse.y = event.touches[0].clientY;
-      this.trigger("mousemove");
-
-      // if two touches, we act as a mouse scroll
-    } else if (event.touches.length === 2) {
-      // Calculate the average change in position of the two touches to simulate a delta
-      const delta =
-        (event.touches[0].clientY + event.touches[1].clientY) / 2 -
-        this.touch.y;
-      this.touch.y = (event.touches[0].clientY + event.touches[1].clientY) / 2;
-
-      // Adjust this.mouse.z based on the delta, 100 as scaling factor for mobile
-      this.mouse.z = delta / 100;
+      this.mouse.z = delta / 100; // Adjust based on delta
 
       // Determine the scroll direction
       this.direction = delta > 0 ? "backward" : "forward";
 
       // Trigger the custom 'wheel' event or equivalent functionality
       this.trigger("wheel");
+
+      // Trigger the custom 'mousemove' event or equivalent functionality
+      // this.trigger("mousemove");
+
+      // Prevent the default touch behavior to avoid scrolling and pinch-zoom actions
+      event.preventDefault();
     }
-    // Prevent the default touch behavior to avoid scrolling and pinch-zoom actions
-    event.preventDefault();
   }
 
   handleTouchEnd(event) {
