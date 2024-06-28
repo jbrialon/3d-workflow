@@ -34,8 +34,7 @@ header {
   display: flex;
   width: 100vw;
   padding-right: 40px;
-  background: #dedfe1;
-  z-index: 40;
+  z-index: $z-top;
 
   h1 {
     font-weight: 500;
@@ -54,6 +53,10 @@ ul {
   padding: 50px 40px 30px 80px;
   border-right: 2px solid black;
   border-left: 2px solid black;
+
+  @include small-only {
+    display: none;
+  }
 }
 
 li {

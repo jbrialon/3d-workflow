@@ -21,20 +21,4 @@ const manager = experience.manager;
   min-height: var(--vh);
   z-index: 20;
 }
-
-.primary {
-  display: inline-block;
-  margin: 50px 0 auto auto;
-  background: transparent;
-  border: 2px solid black;
-  padding: 10px 15px;
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  font-family: "Work Sans", sans-serif;
-  cursor: pointer;
-}
-
-.secondary {
-}
 </style>

@@ -76,7 +76,7 @@ export default class Columns {
       gsap.to(this, {
         duration: 1.5,
         scrollProgress: clampedScrollProgress,
-        ease: "power2.EaseInOut",
+        ease: "power1.EaseOut",
         onUpdate: () => {
           // TODO: animate here
           if (this.activeAction) {

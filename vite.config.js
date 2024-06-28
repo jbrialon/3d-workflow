@@ -15,5 +15,12 @@ export default defineConfig({
     emptyOutDir: true,
     sourcemap: true,
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import "./src/styles/_vars.scss";`,
+      },
+    },
+  },
   plugins: [vue(), glsl()],
 });

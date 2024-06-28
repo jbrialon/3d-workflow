@@ -22,7 +22,7 @@ export default class Camera {
   }
 
   initEvents() {
-    this.inputEvents.on("mousemove", this.onMouseMove.bind(this));
+    //this.inputEvents.on("mousemove", this.onMouseMove.bind(this));
   }
 
   setInstance() {

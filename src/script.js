@@ -1,3 +1,5 @@
+import "./styles/style.scss";
+
 import { createApp, h } from "vue";
 import App from "./App.vue";
 

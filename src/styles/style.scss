@@ -1,0 +1,35 @@
+@import "vars";
+@import "fonts";
+@import "transitions";
+@import "helpers";
+@import "buttons";
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  overflow: hidden;
+  font-family: "Work Sans", sans-serif;
+  font-optical-sizing: auto;
+}
+
+body {
+  width: 100vw;
+  color: #000;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 13px;
+  line-height: 24px;
+  background: var(--main-bg-color);
+}
+
+.webgl {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: $z-webgl;
+  outline: none;
+}

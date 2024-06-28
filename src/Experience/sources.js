@@ -1,19 +1,19 @@
 export default [
-  {
-    name: "sceneModel",
-    type: "gltfModel",
-    path: "/models/scene/scene.glb",
-  },
-  {
-    name: "columnsModel",
-    type: "gltfModel",
-    path: "/models/columns/columns.glb",
-  },
-  {
-    name: "bakedColumnsTexture",
-    type: "texture",
-    path: "/models/columns/baked.png",
-  },
+  // {
+  //   name: "sceneModel",
+  //   type: "gltfModel",
+  //   path: "/models/scene/scene.glb",
+  // },
+  // {
+  //   name: "columnsModel",
+  //   type: "gltfModel",
+  //   path: "/models/columns/columns.glb",
+  // },
+  // {
+  //   name: "bakedColumnsTexture",
+  //   type: "texture",
+  //   path: "/models/columns/baked.png",
+  // },
   {
     name: "roundModel",
     type: "gltfModel",
@@ -22,6 +22,6 @@ export default [
   {
     name: "bakedRoundTexture",
     type: "texture",
-    path: "/models/round/baked.png",
+    path: "/models/round/baked_compressed_high.jpg",
   },
 ];

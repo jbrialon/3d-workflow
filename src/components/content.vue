@@ -72,11 +72,15 @@ export default {
 <style lang="scss" scoped>
 section {
   position: relative;
-  z-index: 30;
+  z-index: $z-content;
   display: flex;
   flex-direction: column;
-  height: calc(100vh);
+  height: var(--vh);
   padding: 370px 70px 70px 70px;
+
+  @include small-only {
+    padding: 170px 35px 35px 15px;
+  }
 
   .section--content {
     position: absolute;
@@ -88,26 +92,18 @@ section {
     line-height: 1.2;
     font-weight: 500;
     margin-bottom: 45px;
+
+    @include small-only {
+      max-width: none;
+    }
   }
 
   p {
     max-width: 30vw;
     font-size: 14px;
-  }
-
-  .slide-up-enter-active,
-  .slide-up-leave-active {
-    transition: all 600ms ease-out;
-  }
-
-  .slide-up-enter-from {
-    opacity: 0;
-    transform: translateY(60px);
-  }
-
-  .slide-up-leave-to {
-    opacity: 0;
-    transform: translateY(-60px);
+    @include small-only {
+      max-width: 65vw;
+    }
   }
 }
 </style>
