@@ -62,7 +62,6 @@ export default {
   },
   mounted() {
     this.manager.on("content-update", (name) => {
-      console.log(name.match(/\d+$/)[0]);
       this.id = name.match(/\d+$/)[0];
     });
   },
@@ -76,10 +75,11 @@ section {
   display: flex;
   flex-direction: column;
   height: var(--vh);
-  padding: 370px 70px 70px 70px;
+  justify-content: center;
+  padding: 0 70px 70px 70px;
 
   @include small-only {
-    padding: 170px 35px 35px 15px;
+    padding: 0px 35px 35px 15px;
   }
 
   .section--content {
@@ -88,7 +88,7 @@ section {
 
   h2 {
     font-size: 48px;
-    max-width: 15vw;
+    max-width: 300px;
     line-height: 1.2;
     font-weight: 500;
     margin-bottom: 45px;

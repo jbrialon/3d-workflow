@@ -120,7 +120,7 @@ export default class InputEvents extends EventEmitter {
       // Update mouse position
       this.mouse.x = event.touches[0].clientX;
       this.mouse.y = event.touches[0].clientY;
-      this.mouse.z = delta / 100; // Adjust based on delta
+      this.mouse.z = delta / -100; // Adjust based on delta
 
       // Determine the scroll direction
       this.direction = delta > 0 ? "backward" : "forward";

@@ -59,6 +59,19 @@ export default class Columns {
     // wheel event
     this.inputEvents.on("wheel", this.onMouseWheel.bind(this));
     this.manager.on("columns-toggleDebug", this.toggleDebug.bind(this));
+    this.manager.on("columns-show", () => {
+      // Set initial state above the scene
+      // this.model.position.y = 1; // Adjust the height as needed
+      this.model.rotation.y = 0;
+
+      // Animate to the final state
+      gsap.to(this.model.rotation, {
+        y: 2 * Math.PI, // 360 degrees rotation
+        duration: 2.5,
+        ease: "power2.inOut",
+        delay: 0.5,
+      });
+    });
   }
 
   onMouseWheel() {
@@ -88,7 +101,6 @@ export default class Columns {
             this.camera.cameraParent.position.copy(this.cameraModel.position);
             this.camera.instance.rotation.copy(this.cameraModel.rotation);
             this.cameraBox.position.copy(this.cameraModel.position);
-
             this.activeAction.paused = true;
           }
         },

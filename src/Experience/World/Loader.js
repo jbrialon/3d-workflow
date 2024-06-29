@@ -9,6 +9,7 @@ export default class Loader {
   constructor() {
     this.experience = new Experience();
     this.scene = this.experience.scene;
+    this.manager = this.experience.manager;
 
     // Options
     this.options = {
@@ -48,6 +49,9 @@ export default class Loader {
       duration: 3,
       value: 0,
       ease: "power4.inOut",
+      onStart: () => {
+        this.manager.trigger("columns-show");
+      },
       onComplete: () => {
         this.destroy();
       },
