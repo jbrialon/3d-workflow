@@ -1,4 +1,5 @@
 import "./styles/style.scss";
+import "boxicons";
 
 import { createApp, h } from "vue";
 import App from "./App.vue";

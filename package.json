@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@pmndrs/vanilla": "^1.16.0",
+    "boxicons": "^2.1.4",
     "gsap": "^3.12.5",
     "lil-gui": "^0.19.1",
     "stats-gl": "^2.2.7",

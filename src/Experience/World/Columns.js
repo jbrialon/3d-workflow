@@ -5,9 +5,11 @@ import Experience from "../Experience";
 export default class Columns {
   constructor() {
     this.experience = new Experience();
+
     this.debug = this.experience.debug;
     this.scene = this.experience.scene;
     this.time = this.experience.time;
+    this.sizes = this.experience.sizes;
     this.camera = this.experience.camera;
     this.manager = this.experience.manager;
     this.inputEvents = this.experience.inputEvents;
@@ -20,6 +22,9 @@ export default class Columns {
     this.colliders = [];
     this.isInsideCollider = false; // State flag
     this.currentCollider = null;
+    this.canRotate = false;
+    this.initialRotationSet = false;
+    this.initialRotation = { x: 0, y: 0, z: 0 };
 
     // Setup
     this.resource = this.resources.items.roundModel;
@@ -58,22 +63,22 @@ export default class Columns {
   initEvents() {
     // wheel event
     this.inputEvents.on("wheel", this.onMouseWheel.bind(this));
+    this.inputEvents.on("mousemove", this.onMouseMove.bind(this));
     this.manager.on("columns-toggleDebug", this.toggleDebug.bind(this));
-    this.manager.on("columns-show", () => {
-      // Set initial state above the scene
-      // this.model.position.y = 1; // Adjust the height as needed
-      this.model.rotation.y = 0;
-
-      // Animate to the final state
-      gsap.to(this.model.rotation, {
-        y: 2 * Math.PI, // 360 degrees rotation
-        duration: 2.5,
-        ease: "power2.inOut",
-        delay: 0.5,
-      });
-    });
+    this.manager.on("columns-show", this.onShow.bind(this));
   }
 
+  onShow() {
+    gsap.to(this.model.rotation, {
+      y: 2 * Math.PI, // 360 degrees rotation
+      duration: 2.5,
+      ease: "power2.inOut",
+      delay: 0.5,
+      onComplete: () => {
+        this.canRotate = true;
+      },
+    });
+  }
   onMouseWheel() {
     if (this.scrollProgress >= 0) {
       let delta = 0.1;
@@ -104,6 +109,40 @@ export default class Columns {
             this.activeAction.paused = true;
           }
         },
+      });
+    }
+  }
+
+  onMouseMove() {
+    if (this.canRotate) {
+      // calculate the position of the mouse based with center as origin
+      const mouse = new THREE.Vector2(
+        this.inputEvents.mouse.x - this.sizes.width / 2,
+        this.inputEvents.mouse.y - this.sizes.height / 2
+      );
+
+      // normalize the mouse position
+      const position = new THREE.Vector2(
+        mouse.x / (this.sizes.width / 2),
+        mouse.y / (this.sizes.height / 2)
+      );
+
+      // Set the initial rotation values if not already set
+      if (!this.initialRotationSet) {
+        this.initialRotation.x = this.model.rotation.x;
+        this.initialRotation.y = this.model.rotation.y;
+        this.initialRotation.z = this.model.rotation.z;
+        this.initialRotationSet = true;
+      }
+
+      // Calculate new rotation values
+      const newRotationY = this.initialRotation.y - position.x / 18;
+
+      gsap.to(this.model.rotation, {
+        // delay: 0.1,
+        y: newRotationY,
+        duration: 1,
+        ease: "power1.easeInOut",
       });
     }
   }

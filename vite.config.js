@@ -22,5 +22,15 @@ export default defineConfig({
       },
     },
   },
-  plugins: [vue(), glsl()],
+  plugins: [
+    vue({
+      template: {
+        compilerOptions: {
+          // treat all tags with a dash as custom elements
+          isCustomElement: (tag) => tag.includes("box-icon"),
+        },
+      },
+    }),
+    glsl(),
+  ],
 });
